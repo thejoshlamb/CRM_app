@@ -1,6 +1,10 @@
+require_relative "contact"
+require_relative "rolodex"
+
 class CRM
 
   def main_menu
+    puts "\e[H\e[2J"
     print_main_menu
     user_selected = gets.to_i
     call_option(user_selected)
@@ -17,13 +21,22 @@ class CRM
   end
 
   def call_option(user_selected)
-    add_new_contact if user_selected == 1
-    modify_existing_contact if user_selected == 2
-    delete_contact if user_selected == 3
-    display_all_contacts if user_selected == 4
-    display_attribute if user_selected == 5
-    exit if user_selected == 6
-    #error_message if shit is broken
+    case user_selected
+    when 1
+      add_new_contact
+    when 2
+      modify_existing_contact
+    when 3
+      delete_contact
+    when 4
+      display_all_contacts
+    when 5
+    display_attribute
+    when 6
+      exit
+    else
+      error_message_menu
+    end
   end
 
   def add_new_contact
@@ -36,5 +49,39 @@ class CRM
     print "Enter a Note: "
     note = gets.chomp
     contact = Contact.new(first_name, last_name, email, note)
+    Rolodex.add_contact(contact)
+    Rolodex.contacts
   end
+
+  def modify_existing_contact
+  end
+
+  def delete_contact
+  end
+
+  def display_all_contacts
+  end
+
+  def display_attribute
+  end
+
+  def error_message_menu
+    puts "\e[H\e[2J"
+    print_main_menu
+    puts "Not a valid, selection, try again."
+    user_selected = gets.to_i
+    call_option(user_selected)
+  end
+
+  def run
+    main_menu
+  end
+
+  def exit
+  end
+
+
 end
+
+greatest_crm_ever = CRM.new
+greatest_crm_ever.run
