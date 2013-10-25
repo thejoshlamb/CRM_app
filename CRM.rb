@@ -5,6 +5,7 @@ class CRM
 
   def initialize
     @rolodex = Rolodex.new
+    @attributes = [nil,:id,:first_name,:last_name,:email,:notes]
   end
 
   def run
@@ -22,7 +23,7 @@ class CRM
   end
 
   def pause_for_user
-    puts "Press Enter to continue"
+    puts "Press Enter to proceed"
     wait_for_enter = gets
   end
 
@@ -36,6 +37,7 @@ class CRM
       return false
     end
   end
+
 
   def main_menu
     clear_screen
@@ -104,28 +106,38 @@ class CRM
     end
   end
 
-  def modify_existing_contact
-    clear_screen
+  def id_selector #asks the user for an ID and returns the id as long as the id is valid
     contact_exists = false
-    while contact_exists = false do
-      puts "Enter the ID of the contact you would like to edit:"
-      id_to_modify = gets.chomp.to_i
-      contact_exists = true if contact_exists?(id_to_modify)
-      puts "That ID does not exist"
+    while contact_exists == false do
+      clear_screen
+      puts "Please enter the contact ID, or 0 to quit:"
+      id_choice = gets.chomp.to_i
+      contact_exists = @rolodex.contact_exists?(id_choice) unless id_choice  == 0
+      puts "That ID does not exist." unless id_choice == 0
+      contact exists == true if id_choice == 0
     end
+    return id_choice unless id_choice == 0
+    main_menu
+  end
+
+  def modify_existing_contact
+    id_to_modify = id_selector
     clear_screen
     puts "Which Attribute would you like to modify?"
     puts "[1] ID"
-    puts "[2] Name"
-    puts "[3] Email"
-    puts "[4] Notes"
+    puts "[2] First Name"
+    puts "[3] Last Name"
+    puts "[4] Email"
+    puts "[5] Notes"
     attribute_choice = gets.to_i
-    @rolodex.modify_contact(id_to_modify,)
+    clear_screen
+    puts "Enter the new value:"
+    new_value = gets.chomp
+    @rolodex.modify_contact(id_to_modify,@attributes[attribute_choice],new_value)
   end
 
   def delete_contact
-    puts "Enter the ID of the contact you would like to delete:"
-    
+    to_delete = id_selector
   end
 
   def display_contact

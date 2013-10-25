@@ -15,8 +15,8 @@ class Rolodex
   def contact_exists?(id)
     @contacts.each do |contact|
       return true if contact.id == id
-      return false
     end
+    return false
   end
 
   def display_all_contacts
@@ -30,11 +30,12 @@ class Rolodex
      contacts.each { |contact| contact.display if contact.id == desired_id }
   end
 
-  def modify_contact(desired_id,attribute_to_edit)
-
+  def modify_contact(desired_id,attribute_to_edit,new_value)
+    contacts.each { |contact| contact.send("#{attribute_to_edit}=", new_value) if contact.id == desired_id}
   end
 
-  def delete_contact
+  def delete_contact(id)
+    @contacts.delete_if { |contact| contact.id == id }
   end
 
 end
