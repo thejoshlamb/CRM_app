@@ -3,6 +3,16 @@ require_relative "rolodex"
 
 class CRM
 
+  def initialize
+    run
+  end
+
+  def run
+    while true
+      main_menu
+    end
+  end
+
   def clear_screen
     puts "\e[H\e[2J"
   end
@@ -11,16 +21,21 @@ class CRM
     clear_screen
     print_main_menu
     user_selected = gets.to_i
-    call_option(user_selected)
+    #begin
+      call_option(user_selected)
+    #rescue
+    #  main_menu_error
+    #end
   end
 
   def print_main_menu
     puts "[1] Add a new contact"
     puts "[2] Modify an existing contact"
     puts "[3] Delete a contact"
-    puts "[4] Display all the contacts"
-    puts "[5] Display an attribute" 
-    puts "[6] Quit"
+    puts "[4] Display a contact"
+    puts "[5] Display all the contacts"
+    puts "[6] Display an attribute" 
+    puts "[7] Quit"
     puts "Enter a number: "
   end
 
@@ -33,13 +48,16 @@ class CRM
     when 3
       delete_contact
     when 4
-      display_all_contacts
+      display_contact
     when 5
-    display_attribute
+      display_all_contacts
     when 6
+      display_attribute
+    when 7
       quit
     else
-      error_message_menu
+      #raise
+      main_menu_error
     end
   end
 
@@ -66,38 +84,38 @@ class CRM
     else
       add_new_contact
     end
-    main_menu
   end
 
   def modify_existing_contact
-    display_all_contacts
     puts "Enter the ID of the contact you would like to edit:"
-    modify_id = gets.chomp.to_i
+    id_to_modify = gets.chomp.to_i
+    Rolodex.modify_contact
   end
 
   def delete_contact
   end
 
+  def display_contact
+    clear_screen
+    puts "Enter the id of the Contact you would like to display:"
+    user_choice = gets.to_i
+    Rolodex.display_particular_contact(user_choice)
+  end
+
   def display_all_contacts
-    Rolodex.display_all
-    puts "Press Enter to continue"
-    wait_for_enter = gets
-    main_menu
+    Rolodex.display_all_contacts
   end
 
   def display_attribute
+    Rolodex.display_all_attributes
   end
 
-  def error_message_menu
+  def main_menu_error
     clear_screen
     print_main_menu
-    puts "Not a valid, selection, try again."
+    puts "Not a valid selection, try again."
     user_selected = gets.to_i
     call_option(user_selected)
-  end
-
-  def run
-    main_menu
   end
 
   def quit
@@ -106,4 +124,3 @@ class CRM
 end
 
 greatest_crm_ever = CRM.new
-greatest_crm_ever.run

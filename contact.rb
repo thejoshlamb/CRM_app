@@ -18,4 +18,5 @@ class Contact
   	puts "Notes: #{@notes}"
   	puts "------------------------------"
   end
+
 end
