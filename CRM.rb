@@ -24,7 +24,7 @@ class CRM
 
   def pause_for_user
     puts "Press Enter to proceed"
-    wait_for_enter = gets
+    gets
   end
 
   def confirm_choice
@@ -43,11 +43,11 @@ class CRM
     clear_screen
     print_main_menu
     user_selected = gets.to_i
-    #begin
+    begin
       call_option(user_selected)
-    #rescue
-    #  main_menu_error
-    #end
+    rescue
+      main_menu_error
+    end
   end
 
   def print_main_menu
@@ -78,8 +78,7 @@ class CRM
     when 7
       quit
     else
-      #raise
-      main_menu_error
+      raise
     end
   end
 
@@ -108,7 +107,7 @@ class CRM
 
   def id_selector #asks the user for an ID and returns the id as long as the id is valid
     contact_exists = false
-    while contact_exists == false do
+    while contact_exists == false
       clear_screen
       puts "Please enter the contact ID, or 0 to quit:"
       id_choice = gets.chomp.to_i
@@ -142,10 +141,14 @@ class CRM
 
   def display_contact
     clear_screen
-    puts "Enter the id of the Contact you would like to display:"
+    puts "Enter the ID of the Contact you would like to display:"
     user_choice = gets.to_i
-    @rolodex.display_particular_contact(user_choice)
+    if contact_exists?
+      @rolodex.display_particular_contact(user_choice)
+    else
+      puts "That ID does not exist"
     pause_for_user
+    end
   end
 
   def display_all_contacts
