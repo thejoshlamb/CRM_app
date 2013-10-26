@@ -23,6 +23,7 @@ class CRM
   end
 
   def pause_for_user
+    puts "----------------------"
     puts "Press Enter to proceed"
     gets
   end
@@ -109,7 +110,7 @@ class CRM
     contact_exists = false
     while contact_exists == false
       clear_screen
-      puts "Please enter the contact ID, or 0 to quit:"
+      puts "Please enter the contact ID, or 0 to go back:"
       id_choice = gets.chomp.to_i
       contact_exists = @rolodex.contact_exists?(id_choice) unless id_choice  == 0
       puts "That ID does not exist." unless id_choice == 0
@@ -201,7 +202,7 @@ class CRM
   def loadpresets
     contact = Contact.new("Bruce", "Wayne", "bwanye@batmanor.com", "He's Batman")
     @rolodex.add(contact)
-    contact = Contact.new("Some", "Guy", "whatever@whoever.com", "just some guy")
+    contact = Contact.new("Joe", "Shmo", "whatever@whoever.com", "just some guy")
     @rolodex.add(contact)
     contact = Contact.new("Alfred", "Hitchcock", "Hitch@film.com", "A fat guy")
     @rolodex.add(contact)

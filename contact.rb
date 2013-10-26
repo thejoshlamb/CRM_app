@@ -16,7 +16,6 @@ class Contact
   	puts "Last Name: #{@last_name}"
   	puts "Email: #{@email}"
   	puts "Notes: #{@notes}"
-  	puts "------------------------------"
   end
 
 end
